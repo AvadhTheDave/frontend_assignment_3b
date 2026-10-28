@@ -3,11 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game</title>
+    <title>Jumper Game</title>
     <script src="script.js" defer></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    
+    <main class="game">
+        <h1>Jumper Game</h1>
+        <p class="game-hint">Avoid the obstacles!</p>
+
+        <div class="game-screen">
+            <canvas
+                id="game-canvas"
+                width="640"
+                height="360"
+            >
+                This canvas displays the game
+            </canvas>
+        </div>
+        <p id="game-information" class="game-information" aria-live="polite">
+            Press <strong>Space</strong> to jump<br>
+            <!-- Hold <strong>Space</strong> to jump higher -->
+        </p>
+
+        <dialog id="start-dialog" class="start-dialog" aria-labelledby="dialog-title">
+            <h2 id="dialog-title">Ready to jump?</h2>
+            <p>Your game is set up. Jumping controls are the next step!</p>
+            <button id="start-button" type="button">Start Game</button>
+        </dialog>
+    </main>
 </body>
 </html>
