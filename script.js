@@ -67,7 +67,7 @@ startButton.addEventListener("click", () => {
 });
 
 document.addEventListener("keydown", (event) => {
-    if (event.code !== "Space" || !gameStarted) {
+    if ((event.code !== "Space" && event.code !== "ArrowUp") || !gameStarted) {
         return;
     }
 
