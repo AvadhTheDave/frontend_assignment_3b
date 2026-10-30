@@ -2,6 +2,7 @@ const canvas = document.querySelector("#game-canvas");
 const context = canvas.getContext("2d");
 const startDialog = document.querySelector("#start-dialog");
 const startButton = document.querySelector("#start-button");
+const dialogTitle = document.querySelector("#dialog-title");
 const groundY = 242;
 const player = {
     x: 100,
@@ -15,9 +16,9 @@ const jumpVelocity = -750;
 let gameStarted = false;
 let lastActiveFrame = 0;
 
-// Obstacle stream settings
+// Obstacle stream initial settings
 const obstacleSpeed = 300;
-const obstacleSpacing = 320; // Fixed distance between each obstacle
+const obstacleSpacing = 320; // Fixed distance between each obstacle for now
 const obstacles = [];
 
 function spawnObstacle() {
@@ -27,6 +28,24 @@ function spawnObstacle() {
         width: player.width,
         height: player.height
     });
+}
+
+function checkCollision(rect1, rect2) {
+    return (
+        rect1.x < rect2.x + rect2.width &&
+        rect1.x + rect1.width > rect2.x &&
+        rect1.y < rect2.y + rect2.height &&
+        rect1.y + rect1.height > rect2.y
+    );
+}
+
+function gameOver() {
+    gameStarted = false;
+    dialogTitle.textContent = "Game Over!";
+    startButton.textContent = "Restart"; // Or "Game over - Play again"
+    if (!startDialog.open) {
+        startDialog.showModal();
+    }
 }
 
 function drawScene() {
@@ -77,6 +96,11 @@ function updateGame(elapsedTime) {
     for (let i = obstacles.length - 1; i >= 0; i--) {
         obstacles[i].x -= obstacleSpeed * elapsedTime;
 
+        if (checkCollision(player, obstacles[i])) {
+            gameOver();
+            return;
+        }
+
         if (obstacles[i].x + obstacles[i].width < 0) {
             obstacles.splice(i, 1);
         }
@@ -84,20 +108,37 @@ function updateGame(elapsedTime) {
 }
 
 function gameLoop(timestamp) {
+    if (!gameStarted) {
+        return;
+    }
+
     const elapsedTime = Math.min((timestamp - lastActiveFrame) / 1000, 0.05);
     lastActiveFrame = timestamp;
 
     updateGame(elapsedTime);
     drawScene();
-    requestAnimationFrame(gameLoop);
+
+    if (gameStarted) {
+        requestAnimationFrame(gameLoop);
+    }
 }
 
 drawScene();
 startDialog.showModal();
 
 startButton.addEventListener("click", () => {
-    startDialog.close();
+    event.preventDefault();
+
+    if (startDialog.open) {
+        startDialog.close();
+    }
+
+    player.y = groundY;
+    player.velocityY = 0;
+    obstacles.length = 0;
+
     gameStarted = true;
+    lastActiveFrame = performance.now();
     requestAnimationFrame(gameLoop);
 });
 
