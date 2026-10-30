@@ -15,6 +15,20 @@ const jumpVelocity = -750;
 let gameStarted = false;
 let lastActiveFrame = 0;
 
+// Obstacle stream settings
+const obstacleSpeed = 300;
+const obstacleSpacing = 320; // Fixed distance between each obstacle
+const obstacles = [];
+
+function spawnObstacle() {
+    obstacles.push({
+        x: canvas.width,
+        y: groundY,
+        width: player.width,
+        height: player.height
+    });
+}
+
 function drawScene() {
     context.fillStyle = "#b6e4ff";
     context.fillRect(0, 0, canvas.width, canvas.height);
@@ -29,6 +43,12 @@ function drawScene() {
 
     context.fillStyle = "#315b35";
     context.fillRect(0, 292, canvas.width, 8);
+
+    // Draw stream of black obstacles
+    context.fillStyle = "#000000";
+    for (const obstacle of obstacles) {
+        context.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+    }
 
     context.fillStyle = "#f47b55";
     context.fillRect(player.x, player.y, player.width, player.height);
@@ -45,6 +65,21 @@ function updateGame(elapsedTime) {
     if (player.y >= groundY) {
         player.y = groundY;
         player.velocityY = 0;
+    }
+
+    // Maintain evenly spaced stream
+    const lastObstacle = obstacles[obstacles.length - 1];
+    if (!lastObstacle || canvas.width - lastObstacle.x >= obstacleSpacing) {
+        spawnObstacle();
+    }
+
+    // Move obstacles and remove offscreen ones
+    for (let i = obstacles.length - 1; i >= 0; i--) {
+        obstacles[i].x -= obstacleSpeed * elapsedTime;
+
+        if (obstacles[i].x + obstacles[i].width < 0) {
+            obstacles.splice(i, 1);
+        }
     }
 }
 
