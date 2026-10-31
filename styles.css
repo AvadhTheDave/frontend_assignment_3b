@@ -1,0 +1,109 @@
+@font-face {
+    font-family: 'Amarante';
+    src: url('fonts/amarante.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    font-family: 'Amarante', sans-serif;
+    color: #efffe7;
+    margin: 0;
+    padding: 0;
+    min-width: 320px;
+    min-height: 100vh;
+    background: #101b16;
+}
+
+.game {
+    width: min(90%, 640px);
+    margin: 0 auto;
+    padding: 48px 0;
+    text-align: center;
+}
+
+.game h1 {
+    margin: 0;
+    color: #a7f078;
+    font-size: clamp(2rem, 8vw, 3.5rem);
+}
+
+.game-hint,
+.game-information {
+    color: #bfd0c2;
+}
+
+.game-screen {
+    overflow: hidden;
+    border: 3px solid #a7f078;
+    border-radius: 12px;
+    background: #b6e4ff;
+}
+
+#game-canvas {
+display: block;
+width: 100%;
+height: auto;
+}
+
+.start-dialog {
+    position: fixed;
+    inset: 0;
+    box-sizing: border-box;
+    width: min(90vw, 380px);
+    margin: auto;
+    padding: 32px;
+    border: 2px solid #a7f078;
+    border-radius: 16px;
+    color: #efffe7;
+    background: #1b2b22;
+    text-align: center;
+}
+
+.start-dialog::backdrop {
+    background: #08110dcc;
+}
+
+.start-dialog h2 {
+    margin-top: 0;
+    color: #a7f078;
+    font-size: 2rem;
+}
+
+.start-dialog p {
+    color: #bfd0c2;
+    font-size: 1.25rem;
+    line-height: 1.5;
+}
+
+.start-dialog .final-score {
+    margin: 0;
+    color: #efffe7;
+    font-size: 1.5rem;
+}
+
+.start-dialog .best-score {
+    margin: 4px 0 8px;
+}
+
+.start-dialog button {
+    margin-top: 12px;
+    padding: 12px 24px;
+    border: 0;
+    border-radius: 8px;
+    color: #142012;
+    background: #a7f078;
+    font: inherit;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.start-dialog button:hover {
+    background: #c1ff9d;
+}
+
+.start-dialog button:focus-visible {
+    outline: 3px solid #efffe7;
+    outline-offset: 3px;
+}
