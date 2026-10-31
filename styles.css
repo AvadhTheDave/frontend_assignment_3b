@@ -3,6 +3,7 @@
     src: url('fonts/amarante.woff') format('woff');
     font-weight: 400;
     font-style: normal;
+    font-display: swap;
 }
 
 body {
@@ -41,9 +42,9 @@ body {
 }
 
 #game-canvas {
-    display: block;
-    width: 100%;
-    height: auto;
+display: block;
+width: 100%;
+height: auto;
 }
 
 .start-dialog {
@@ -72,7 +73,18 @@ body {
 
 .start-dialog p {
     color: #bfd0c2;
+    font-size: 1.25rem;
     line-height: 1.5;
+}
+
+.start-dialog .final-score {
+    margin: 0;
+    color: #efffe7;
+    font-size: 1.5rem;
+}
+
+.start-dialog .best-score {
+    margin: 4px 0 8px;
 }
 
 .start-dialog button {
